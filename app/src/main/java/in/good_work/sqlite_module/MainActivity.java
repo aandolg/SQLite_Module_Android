@@ -17,9 +17,11 @@ import in.good_work.sqlite_module.Adapter.PersonAdapter;
 import in.good_work.sqlite_module.Model.Person;
 import in.good_work.sqlite_module.Model.PersonContract;
 import java.util.ArrayList;
+
+import in.good_work.sqlite_module.common.ItemClickListener;
 import in.good_work.sqlite_module.db.DBContentProvider;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemClickListener<Person>{
     private RecyclerView rvListPerson;
     private PersonAdapter personAdapter;
     private RecyclerView.LayoutManager personLayoutManager;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         personAdapter = new PersonAdapter();
         personAdapter.addAll(personList);
         rvListPerson.setAdapter(personAdapter);
+        personAdapter.setInterface(this);
 
         btnAddPerson = (Button) findViewById(R.id.btn_main_add_person);
         btnAddPerson.setOnClickListener(new View.OnClickListener() {
@@ -101,4 +104,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
+    @Override
+    public void onItemClicked(Person item, boolean b) {
+        Toast.makeText(getBaseContext(),item.toString(), Toast.LENGTH_LONG).show();
+    }
 }

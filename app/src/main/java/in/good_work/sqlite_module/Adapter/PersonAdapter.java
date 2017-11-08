@@ -10,6 +10,7 @@ import java.util.List;
 
 import in.good_work.sqlite_module.Model.Person;
 import in.good_work.sqlite_module.R;
+import in.good_work.sqlite_module.common.ItemClickListener;
 
 /**
  * Created by Alex on 06.11.2017.
@@ -17,7 +18,11 @@ import in.good_work.sqlite_module.R;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonViewHolder> {
     private ArrayList<Person> items = new ArrayList<>();
+    private ItemClickListener<Person> listener;
 
+    public void setInterface(ItemClickListener<Person> i) {
+        this.listener = i;
+    }
     public void addAll(List<Person> person){
         int pos = getItemCount();
         this.items.addAll(person);
@@ -31,8 +36,14 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder holder, int position) {
+    public void onBindViewHolder(PersonViewHolder holder, final int position) {
         holder.bind(items.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(items.get(position), true);
+            }
+        });
     }
 
     @Override
