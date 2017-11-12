@@ -6,4 +6,7 @@ package in.good_work.sqlite_module.common;
 
 public interface ItemClickListener<M> {
     void onItemClicked(M item, boolean b);
+    void deleteItem(long itemId);
+    void updateItem(long itemId);
+    void openItemDetails(long itemId);
 }

@@ -17,9 +17,11 @@ import in.good_work.sqlite_module.Adapter.PersonAdapter;
 import in.good_work.sqlite_module.Model.Person;
 import in.good_work.sqlite_module.Model.PersonContract;
 import java.util.ArrayList;
+import java.util.List;
 
 import in.good_work.sqlite_module.common.ItemClickListener;
 import in.good_work.sqlite_module.db.DBContentProvider;
+import in.good_work.sqlite_module.game.Hero;
 
 public class MainActivity extends AppCompatActivity implements ItemClickListener<Person>{
     private RecyclerView rvListPerson;
@@ -32,6 +34,11 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ArrayList<Hero> heroes = new ArrayList<>();
+
+        for (int i = 0; i < heroes.size(); i++) {
+            heroes.get(i).attack();
+        }
         rvListPerson = (RecyclerView) findViewById(R.id.rv_main_listperson);
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         rvListPerson.setLayoutManager(llm);
@@ -44,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
             while (cursor.moveToNext()) {
                 Person person = new Person();
-                person.setId(getStringValueCursor(cursor, PersonContract._ID));
+                person.setId(Long.parseLong(getStringValueCursor(cursor, PersonContract._ID)));
                 person.setName(getStringValueCursor(cursor, PersonContract.KEY_NAME));
                 person.setSurname(getStringValueCursor(cursor, PersonContract.KEY_SURNAME));
                 person.setEmail(getStringValueCursor(cursor, PersonContract.KEY_MAIL));
@@ -107,5 +114,20 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void onItemClicked(Person item, boolean b) {
         Toast.makeText(getBaseContext(),item.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void deleteItem(long itemId) {
+        Toast.makeText(getBaseContext(),"delete item " + String.valueOf(itemId), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void updateItem(long itemId) {
+        Toast.makeText(getBaseContext(),"update " + String.valueOf(itemId), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void openItemDetails(long itemId) {
+        Toast.makeText(getBaseContext(), "open detail " + String.valueOf(itemId), Toast.LENGTH_LONG).show();
     }
 }

@@ -23,6 +23,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonViewHolder> {
     public void setInterface(ItemClickListener<Person> i) {
         this.listener = i;
     }
+
     public void addAll(List<Person> person){
         int pos = getItemCount();
         this.items.addAll(person);
@@ -38,10 +39,11 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonViewHolder> {
     @Override
     public void onBindViewHolder(PersonViewHolder holder, final int position) {
         holder.bind(items.get(position));
+        holder.setListener(this.listener);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClicked(items.get(position), true);
+            listener.onItemClicked(items.get(position), true);
             }
         });
     }

@@ -5,49 +5,96 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/person_name"
+        <RelativeLayout
+            android:id="@+id/rl_item_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:hint="Name"
-            android:textSize="30sp" />
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/person_surname"
+            <TextView
+                android:id="@+id/person_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:hint="Name"
+                android:textSize="@dimen/name_surname_size" />
+
+            <TextView
+                android:id="@+id/person_surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/person_name"
+                android:hint="SurName"
+                android:textSize="@dimen/name_surname_size" />
+
+            <TextView
+                android:id="@+id/person_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:hint="user_phone" />
+
+            <TextView
+                android:id="@+id/person_skype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/person_name"
+                android:hint="skype" />
+
+            <TextView
+                android:id="@+id/person_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/person_surname"
+                android:hint="email" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/person_name"
-            android:hint="SurName" />
+            android:layout_weight="3">
 
-        <TextView
-            android:id="@+id/person_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/person_surname"
-            android:hint="user_phone" />
+            <ImageButton
+                android:id="@+id/btn_person_list_call"
+                android:layout_width="@dimen/item_list_icon_width"
+                android:layout_height="@dimen/item_list_icon_height"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/item_list_icon_margin_left"
+                app:srcCompat="@android:drawable/stat_sys_phone_call" />
 
-        <TextView
-            android:id="@+id/person_skype"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/person_surname"
-            android:layout_marginLeft="5dp"
-            android:layout_toEndOf="@+id/person_phone"
-            android:hint="skype" />
+            <ImageButton
+                android:id="@+id/btn_person_list_email"
+                android:layout_width="@dimen/item_list_icon_width"
+                android:layout_height="@dimen/item_list_icon_height"
+                android:layout_marginLeft="@dimen/item_list_icon_margin_left"
+                app:srcCompat="@android:drawable/ic_dialog_email" />
 
-        <ImageButton
-            android:id="@+id/btn_person_list_call"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            app:srcCompat="@android:drawable/stat_sys_phone_call" />
+            <ImageButton
+                android:id="@+id/btn_person_list_delete"
+                android:layout_width="@dimen/item_list_icon_width"
+                android:layout_height="@dimen/item_list_icon_height"
+                android:layout_marginLeft="@dimen/item_list_icon_margin_left"
+                android:layout_below="@+id/btn_person_list_email"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
 
-    </RelativeLayout>
+            <ImageButton
+                android:id="@+id/btn_person_list_skype"
+                android:layout_width="@dimen/item_list_icon_width"
+                android:layout_height="@dimen/item_list_icon_height"
+                android:layout_marginLeft="@dimen/item_list_icon_margin_left"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/btn_person_list_call"
+                app:srcCompat="@android:drawable/ic_menu_set_as" />
+        </RelativeLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>

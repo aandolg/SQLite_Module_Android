@@ -15,6 +15,8 @@ import android.widget.Toast;
 import in.good_work.sqlite_module.MainActivity;
 import in.good_work.sqlite_module.Model.Person;
 import in.good_work.sqlite_module.R;
+import in.good_work.sqlite_module.common.ItemClickListener;
+import in.good_work.sqlite_module.db.DBContentProvider;
 
 /**
  * Created by Alex on 06.11.2017.
@@ -25,9 +27,11 @@ public class PersonViewHolder extends RecyclerView.ViewHolder implements View.On
     private TextView tvPersonSurname;
     private TextView tvPersonPhone;
     private TextView tvPersonSkype;
+    private TextView tvPersonEmail;
     private ImageButton imbntCall;
     private Person person;
     Context context;
+    private ItemClickListener<Person> listener;
 
     public PersonViewHolder(View itemView, Context context) {
         super(itemView);
@@ -36,6 +40,7 @@ public class PersonViewHolder extends RecyclerView.ViewHolder implements View.On
         tvPersonSurname = (TextView) itemView.findViewById(R.id.person_surname);
         tvPersonPhone = (TextView) itemView.findViewById(R.id.person_phone);
         tvPersonSkype = (TextView) itemView.findViewById(R.id.person_skype);
+        tvPersonEmail = (TextView) itemView.findViewById(R.id.person_email);
         imbntCall = (ImageButton) itemView.findViewById(R.id.btn_person_list_call);
         imbntCall.setOnClickListener(this);
         itemView.setOnClickListener(this);
@@ -47,6 +52,7 @@ public class PersonViewHolder extends RecyclerView.ViewHolder implements View.On
             tvPersonName.setText(person.getName());
             tvPersonSurname.setText(person.getSurname());
             tvPersonPhone.setText(person.getPhone());
+            tvPersonEmail.setText(person.getEmail());
 
             tvPersonSkype.setText(person.getSkype());
             itemView.setOnCreateContextMenuListener(this);
@@ -55,6 +61,7 @@ public class PersonViewHolder extends RecyclerView.ViewHolder implements View.On
 
     @Override
     public void onClick(View v) {
+        Toast.makeText(context, "Click icon", Toast.LENGTH_LONG).show();
         switch (v.getId()) {
             case R.id.btn_person_list_call:
                 if (person != null) {
@@ -70,10 +77,30 @@ public class PersonViewHolder extends RecyclerView.ViewHolder implements View.On
                     }
                 }
                 break;
+            case R.id.btn_person_list_skype:
+                break;
+            case R.id.btn_person_list_delete:
+                Long personId = person.getId();
+                Uri delete = Uri.parse(DBContentProvider.PERSONS_CONTENT_URI + "/" + personId);
+                context.getContentResolver().delete(delete, personId.toString(), null);
+                Toast.makeText(context, "DELETE " + personId, Toast.LENGTH_LONG).show();
+                break;
+            case R.id.btn_person_list_email:
+                Toast.makeText(context, "Email send", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{person.getEmail()});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+                intent.putExtra(Intent.EXTRA_TEXT   , "body of email");
+                try {
+                    v.getContext().startActivity(Intent.createChooser(intent, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(context, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+                break;
             default:
                 Toast.makeText(context, v.toString(), Toast.LENGTH_LONG).show();
                 break;
-
         }
     }
 
@@ -90,5 +117,9 @@ public class PersonViewHolder extends RecyclerView.ViewHolder implements View.On
         Intent intentDelete = new Intent(context, MainActivity.class);
         intentDelete.putExtra("personId", this.person.getId());
         item.setIntent(intentDelete);
+    }
+
+    public void setListener(ItemClickListener<Person> listener) {
+        this.listener = listener;
     }
 }

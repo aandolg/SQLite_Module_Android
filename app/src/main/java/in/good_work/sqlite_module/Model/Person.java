@@ -5,7 +5,7 @@ package in.good_work.sqlite_module.Model;
  */
 
 public class Person {
-    private String id;
+    private Long id;
     private String name;
     private String surname;
     private String phone;
@@ -24,11 +24,11 @@ public class Person {
         this.skype = skype;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getName() {
