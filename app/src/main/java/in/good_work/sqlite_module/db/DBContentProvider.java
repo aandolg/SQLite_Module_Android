@@ -63,10 +63,6 @@ public class DBContentProvider extends ContentProvider {
 
         switch (uriMatcher.match(uri)) {
             case URI_PERSON:
-                //content//authority/path/1
-                //   /1 = uri.getLastPathSegment();
-                // /path = uri.getEncodedPath();
-                // tableName = uri.getEncodedPath();
                 tableName = Config.TABLE_PERSON;
                 break;
             case URI_PERSON_ID:
@@ -158,7 +154,7 @@ public class DBContentProvider extends ContentProvider {
         String tableName;
         switch (uriMatcher.match(uri)) {
             case URI_PERSON:
-                tableName = uri.getEncodedPath();
+                tableName = uri.getLastPathSegment();
 
                 break;
             case URI_PERSON_ID:

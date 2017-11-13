@@ -40,12 +40,12 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonViewHolder> {
     public void onBindViewHolder(PersonViewHolder holder, final int position) {
         holder.bind(items.get(position));
         holder.setListener(this.listener);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             listener.onItemClicked(items.get(position), true);
             }
-        });
+        });*/
     }
 
     @Override

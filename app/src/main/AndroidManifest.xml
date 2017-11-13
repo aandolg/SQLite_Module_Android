@@ -20,11 +20,12 @@
             android:name=".db.DBContentProvider"
             android:authorities="in.good_work.sqlite_module" />
 
-        <activity android:name=".AddpersonActivity"></activity>
+        <activity android:name=".AddpersonActivity" />
 
         <uses-permission android:name="android.permission.CALL_PHONE" />
         <uses-permission android:name="android.permission.INTERNET" />
 
+        <activity android:name=".DetailsPersonActivity"></activity>
     </application>
 
 </manifest>

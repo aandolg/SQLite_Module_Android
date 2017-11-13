@@ -21,7 +21,6 @@ import java.util.List;
 
 import in.good_work.sqlite_module.common.ItemClickListener;
 import in.good_work.sqlite_module.db.DBContentProvider;
-import in.good_work.sqlite_module.game.Hero;
 
 public class MainActivity extends AppCompatActivity implements ItemClickListener<Person>{
     private RecyclerView rvListPerson;
@@ -34,11 +33,6 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Hero> heroes = new ArrayList<>();
-
-        for (int i = 0; i < heroes.size(); i++) {
-            heroes.get(i).attack();
-        }
         rvListPerson = (RecyclerView) findViewById(R.id.rv_main_listperson);
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         rvListPerson.setLayoutManager(llm);
@@ -48,8 +42,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         ArrayList<Person> personList = new ArrayList<Person>();
 
         if (cursor.moveToFirst()) {
-
-            while (cursor.moveToNext()) {
+           do {
                 Person person = new Person();
                 person.setId(Long.parseLong(getStringValueCursor(cursor, PersonContract._ID)));
                 person.setName(getStringValueCursor(cursor, PersonContract.KEY_NAME));
@@ -58,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
                 person.setPhone(getStringValueCursor(cursor, PersonContract.KEY_PHONE));
                 person.setSkype(getStringValueCursor(cursor, PersonContract.KEY_SKYPE));
                 personList.add(person);
-            }
+            }  while (cursor.moveToNext());
         }
 
 
@@ -84,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         });
     }
 
-    public String getStringValueCursor(Cursor cursor, String nameColumn) {
+    public static String getStringValueCursor(Cursor cursor, String nameColumn) {
         return cursor.getString(cursor.getColumnIndex(nameColumn));
     }
 
@@ -119,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void deleteItem(long itemId) {
         Toast.makeText(getBaseContext(),"delete item " + String.valueOf(itemId), Toast.LENGTH_LONG).show();
+        Uri delete = Uri.parse(DBContentProvider.PERSONS_CONTENT_URI + "/" + String.valueOf(itemId));
+        this.getContentResolver().delete(delete, String.valueOf(itemId), null);
     }
 
     @Override
@@ -129,5 +124,8 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Override
     public void openItemDetails(long itemId) {
         Toast.makeText(getBaseContext(), "open detail " + String.valueOf(itemId), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getBaseContext(), DetailsPersonActivity.class);
+        intent.putExtra("itemId", itemId);
+        this.startActivity(intent);
     }
 }
